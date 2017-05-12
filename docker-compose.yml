@@ -32,7 +32,7 @@ services:
     environment:
       XPACK_MONITORING_ENABLED: "false"
     volumes:
-      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-#    command:
-#      - -f
-#      - "/opt/logstash.conf"
+      - ./logstash/logstash.conf:/opt/logstash.conf
+    command:
+      - -f
+      - "/opt/logstash.conf"
