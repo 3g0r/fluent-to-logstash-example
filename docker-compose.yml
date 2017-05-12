@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  spawner:
+    build: ./logs-spawner
+    logging:
+      driver: fluentd
+      options:
+        tag: docker.{{.Name}}
+
+    volumes:
+      - ./logs-spawner/spawner.js:/opt/spawner.js
+    depends_on:
+      - fluent
+
+  fluent:
+    build: ./fluent
+    user: fluent
+    environment:
+      FLUENTD_OPT: "-v"
+    volumes:
+      - ./fluent/fluent.conf:/fluentd/etc/fluent.conf
+    ports:
+      - 24224:24224
+      - 24224:24224/udp
+
+  logstash:
+    build: ./logstash
+#    ports:
+#      - 5400:5400
+#      - 4000:4000
+    environment:
+      XPACK_MONITORING_ENABLED: "false"
+    volumes:
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+#    command:
+#      - -f
+#      - "/opt/logstash.conf"
