@@ -26,9 +26,6 @@ services:
 
   logstash:
     build: ./logstash
-#    ports:
-#      - 5400:5400
-#      - 4000:4000
     environment:
       XPACK_MONITORING_ENABLED: "false"
     volumes:
